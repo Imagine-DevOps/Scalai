@@ -1,4 +1,5 @@
-# scalak8s
+# sKala
+
 Automate scalable services capacity up or down in Kubernetes to support dynamic traffic. 
 
 -   Validating the installation of Metrics Server
