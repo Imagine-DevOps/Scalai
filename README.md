@@ -45,17 +45,13 @@ $ helm install . --name my-app
 3.  Get the service IP of my-ch7-app-node to connect to the application. The following command will return an external address for the application:
 
 ```markup
-$ export SERVICE_IP=$(kubectl get svc --namespace default my-ch7-app-node --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")$ echo http://$SERVICE_IP/http://mytodoapp.us-east-1.elb.amazonaws.com/
+$ export SERVICE_IP=$(kubectl get svc --namespace default app-node --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}")$ echo http://$SERVICE_IP/http://mytodoapp.us-east-1.elb.amazonaws.com/
 ```
-
-4.  Open the address from _Step 3_ in a web browser. You will get a fully functional To-Do application:
-
-![](https://static.packt-cdn.com/products/9781838828042/graphics/assets/1e02a226-7f1d-4804-98f7-6176144d9845.png)
 
 5.  Check the status of the application using helm status. You will see the number of pods that have been deployed as part of the deployment in the Available column:
 
 ```markup
-$ helm status my-ch7-appLAST DEPLOYED: Thu Oct 3 00:13:10 2019NAMESPACE: defaultSTATUS: DEPLOYEDRESOURCES:==> v1/DeploymentNAME               READY UP-TO-DATE AVAILABLE AGEmy-ch7-app-mongodb 1/1   1          1         app-node    1/1   1          1         9m9s...
+$ helm status ppLAST DEPLOYED: Thu Oct 3 00:13:10 2019NAMESPACE: defaultSTATUS: DEPLOYEDRESOURCES:==> v1/DeploymentNAME               READY UP-TO-DATE AVAILABLE AGEmy-ch7-app-mongodb 1/1   1          1         app-node    1/1   1          1         9m9s...
 ```
 
 6.  Scale the node pod to 3 replicas from the current scale of a single replica:
@@ -140,7 +136,7 @@ $ kubectl get hpaNAME                  REFERENCE                  TARGETS MINPOD
 10.  Check the deployment size and confirm that the deployment has been scaled down to 1 replica as the result of stopping the traffic generator:
 
 ```markup
-$ kubectl get deployment my-ch7-app-nodeNAME            READY UP-TO-DATE AVAILABLE AGEmy-ch7-app-node 1/1   1          1         5h35m
+$ kubectl get deployment app-nodeNAME            READY UP-TO-DATE AVAILABLE AGE app-node 1/1   1          1         5h35m
 ```
 
 In this recipe, you learned how to automate how an application is scaled dynamically based on changing metrics. When applications are scaled up, they are dynamically scheduled on existing worker nodes.
@@ -152,7 +148,7 @@ This recipe showed you how to manually and automatically scale the number of pod
 In this recipe, in _Step 2_, we created an Autoscaler that adjusts the number of replicas between the defined minimum using minReplicas: 1 and maxReplicas: 5. As shown in the following example, the adjustment criteria are triggered by the targetCPUUtilizationPercentage: 50 metric:
 
 ```markup
-spec:  scaleTargetRef:    apiVersion: apps/v1    kind: Deployment    name: my-ch7-app-node  minReplicas: 1  maxReplicas: 5  targetCPUUtilizationPercentage: 50
+spec:  scaleTargetRef:    apiVersion: apps/v1    kind: Deployment    name: app-node  minReplicas: 1  maxReplicas: 5  targetCPUUtilizationPercentage: 50
 ```
 
 targetCPUUtilizationPercentage was used with the autoscaling/v1 APIs. You will soon see that targetCPUUtilizationPercentage will be replaced with an array called metrics.
