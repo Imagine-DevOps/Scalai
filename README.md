@@ -1,4 +1,4 @@
-# Scale Eights
+# Scalai
 
 Automate scalable services capacity up or down in Kubernetes to support dynamic traffic. 
 
