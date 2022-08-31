@@ -1,4 +1,4 @@
-# skal8
+# skal8s
 
 Automate scalable services capacity up or down in Kubernetes to support dynamic traffic. 
 
