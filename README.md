@@ -39,7 +39,7 @@ $ cd /charts/node/
 2.  Install the To-Do application example using the following command. This Helm chart will deploy two pods, including a Node.js service and a MongoDB service:
 
 ```markup
-$ helm install . --name my-ch7-app
+$ helm install . --name my-app
 ```
 
 3.  Get the service IP of my-ch7-app-node to connect to the application. The following command will return an external address for the application:
