@@ -55,28 +55,27 @@ $ export SERVICE_IP=$(kubectl get svc --namespace default my-ch7-app-node --temp
 5.  Check the status of the application using helm status. You will see the number of pods that have been deployed as part of the deployment in the Available column:
 
 ```markup
-$ helm status my-ch7-appLAST DEPLOYED: Thu Oct 3 00:13:10 2019NAMESPACE: defaultSTATUS: DEPLOYEDRESOURCES:==> v1/DeploymentNAME               READY UP-TO-DATE AVAILABLE AGEmy-ch7-app-mongodb 1/1   1          1         9m9smy-ch7-app-node    1/1   1          1         9m9s...
+$ helm status my-ch7-appLAST DEPLOYED: Thu Oct 3 00:13:10 2019NAMESPACE: defaultSTATUS: DEPLOYEDRESOURCES:==> v1/DeploymentNAME               READY UP-TO-DATE AVAILABLE AGEmy-ch7-app-mongodb 1/1   1          1         app-node    1/1   1          1         9m9s...
 ```
 
 6.  Scale the node pod to 3 replicas from the current scale of a single replica:
 
 ```markup
-$ kubectl scale --replicas 3 deployment/my-ch7-app-nodedeployment.extensions/my-ch7-app-node scaled
+$ kubectl scale --replicas 3 deployment/app-nodedeployment.extensions/app-node scaled
 ```
 
 7.  Check the status of the application again and confirm that, this time, the number of available replicas is 3 and that the number of my-ch7-app-node pods in the v1/Pod section has increased to 3:
 
 ```markup
-$ helm status my-ch7-app...RESOURCES:==> v1/DeploymentNAME READY UP-TO-DATE AVAILABLE AGEmy-ch7-app-mongodb 1/1 1 1 26mmy-ch7-app-node 3/3 3 3 26m...==> v1/Pod(related)NAME READY STATUS RESTARTS AGEmy-ch7-app-mongodb-5499c954b8-lcw27 1/1 Running 0 26mmy-ch7-app-node-d8b94964f-94dsb 1/1 Running 0 91smy-ch7-app-node-d8b94964f-h9w4l 1/1 Running 3 26mmy-ch7-app-node-d8b94964f-qpm77 1/1 Running 0 91s
+$ helm status app...RESOURCES:==> v1/DeploymentNAME READY UP-TO-DATE AVAILABLE AGEmy-ch7-app-mongodb 1/1 1 1 app-node 3/3 3 3 26m...==> v1/Pod(related)NAME READY STATUS RESTARTS app-mongodb-5499c954b8-lcw27 1/1 Running 0 26mmy-ch7-app-node-d8b94964f-94dsb 1/1 Running 0 91smy-ch7-app-node-d8b94964f-h9w4l 1/1 Running 3 26mmy-ch7-app-node-d8b94964f-qpm77 1/1 Running 0 91s
 ```
 
 8.  To scale down your application, repeat _Step 5_, but this time with 2 replicas:
 
 ```markup
-$ kubectl scale --replicas 2 deployment/my-ch7-app-nodedeployment.extensions/my-ch7-app-node scaled
+$ kubectl scale --replicas 2 deployment/app-nodedeployment.extensions/app-node scaled
 ```
-
-With that, you've learned how to scale your application when needed. Of course, your Kubernetes cluster resources should be able to support growing workload capacities as well. You will use this knowledge to test the service healing functionality in the _Auto-healing pods in Kubernetes_ recipe.
+Use this knowledge to test the service healing functionality in the _Auto-healing pods in Kubernetes_ recipe.
 
 The next recipe will show you how to autoscale workloads based on actual resource consumption instead of manual steps.
 
@@ -161,7 +160,7 @@ targetCPUUtilizationPercentage was used with the autoscaling/v1 APIs. You will s
 To understand the new metrics and custom metrics, run the following command. This will return the manifest we created with V1 APIs into a new manifest using V2 APIs:
 
 ```markup
-$ kubectl get hpa.v2beta2.autoscaling my-ch7-app-node -o yaml
+$ kubectl get hpa.v2beta2.autoscaling app-node -o yaml
 ```
 
 This enables you to specify additional resource metrics. By default, CPU and memory are the only supported resource metrics. In addition to these resource metrics, v2 APIs enable two other types of metrics, both of which are considered custom metrics: per-pod custom metrics and object metrics. You can read more about this by going to the _Kubernetes HPA documentation_ link mentioned in the _See also_ section.
